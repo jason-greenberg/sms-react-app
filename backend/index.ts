@@ -8,7 +8,6 @@ import path from 'path';
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' })
 
-const PORT = process.env.PORT || 5001
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN
 const TWILIO_PHONE_NUMBER = process.env.TWILIO_PHONE_NUMBER
@@ -73,6 +72,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Start server and listen on given port
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(8000, () => {
+  console.log(`Server is listening on port 8000`);
 });
