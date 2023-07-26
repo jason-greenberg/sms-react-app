@@ -5,7 +5,7 @@ import { SendMessageForm } from './components/SendMessageForm';
 function App() {
   const onSubmit = async (phoneNumber: string, message: string) => {
     try {
-      const response = await fetch('/api/send', {
+      const response = await fetch('https:localhost:5001/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -13,12 +13,23 @@ function App() {
         body: JSON.stringify({ phoneNumber, message })
       });
 
-      alert('Message sent!');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const responseBody = await response.json();
+
+      if(responseBody.message === 'Message sent successfully'){
+        alert('Message sent!');
+      } else {
+        alert('Failed to send message.');
+      }
     } catch (err) {
       alert('Failed to send message.');
-      console.log(err);
+      console.error(err);
     }
   };
+
 
   return (
     <SendMessageForm onSubmit={onSubmit} />

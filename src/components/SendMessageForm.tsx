@@ -16,7 +16,16 @@ export const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSubmit }) =>
         onSubmit(phoneNumber, message);
       }}
     >
-      <TextInputField />
+      <TextInputField 
+        label="Phone Number"
+        value={phoneNumber}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
+      />
+      <TextInputField 
+        label="Message"
+        value={message}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
+      />
       <TextInputField />
       <Button type="submit">Send Message</Button>
     </form>
