@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import twilio from 'twilio';
+import path from 'path';
 
 // Load environment variables from .env file
 import dotenv from 'dotenv';
@@ -38,7 +39,7 @@ interface SendMessageRequest {
 
 // Endpoint route for sending message
 app.post(
-  '/send',
+  '/api/send',
   async (req: Request<{}, {}, SendMessageRequest>, res: Response) => {
     const { phoneNumber, message } = req.body
 
@@ -59,6 +60,17 @@ app.post(
     }
   }
 );
+
+// Serve React build files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve the static assets in the frontend's build folder
+  app.use(express.static(path.resolve(__dirname, '../../frontend/build')));
+  
+  // Serve the frontend's index.html file at all other routes NOT starting with /api
+  app.get(/^(?!\/?api).*/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../frontend/build', 'index.html'));
+  });
+}
 
 // Start server and listen on given port
 app.listen(PORT, () => {
