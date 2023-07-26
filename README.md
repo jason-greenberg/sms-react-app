@@ -31,13 +31,12 @@ Navigate to the backend directory and create a .env file with your Twilio API cr
 cd backend
 touch .env
 ```
-Open the .env file and add your Twilio API credentials, PORT, and NODE_ENV:
+Open the .env file and add your Twilio API credentials, and NODE_ENV:
 
 ```bash
 TWILIO_ACCOUNT_SID=<your-account-sid>
 TWILIO_AUTH_TOKEN=<your-auth-token>
 TWILIO_PHONE_NUMBER=<your-twilio-phone-number>
-PORT=<your-desired-server-port-number>
 NODE_ENV=<development>
 ```
 ### Running the Application
