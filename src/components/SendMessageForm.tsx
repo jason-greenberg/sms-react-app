@@ -7,17 +7,21 @@ interface SendMessageFormProps {
 }
 
 export const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSubmit }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState<boolean>(true);
+  const [isMessageValid, setIsMessageValid] = useState<boolean>(true);
 
   const validateForm = () => {
     const messageIsValid = message.length > 0;
+    setIsMessageValid(messageIsValid);
     
     // Validates a North American phone number format, adjust as necessary for other formats.
     const phoneNumberIsValid = /^(\+1|1)?[2-9]\d{2}[2-9]\d{6}$/.test(phoneNumber);
+    setIsPhoneNumberValid(phoneNumberIsValid);
   
     return messageIsValid && phoneNumberIsValid;
   };
@@ -51,19 +55,21 @@ export const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSubmit }) =>
         <TextInputField
           className="textInputField"
           label="Phone Number"
+          placeholder="6502079920"
           value={phoneNumber}
-          isInvalid={isSubmitted && phoneNumber.length === 0}
-          validationMessage={isSubmitted && phoneNumber.length === 0 ? 'Phone number is required' : ''}
+          isInvalid={!isPhoneNumberValid}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
         />
+        {!isPhoneNumberValid && isSubmitted && <p className="errorText">Phone number is invalid</p>}
         <TextInputField
           className="textInputField"
           label="Message"
+          placeholder="Appointment reminder"
           value={message}
-          isInvalid={isSubmitted && message.length === 0}
-          validationMessage={isSubmitted && message.length === 0 ? 'Message is required' : ''}
+          isInvalid={!isMessageValid}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
         />
+        {!isMessageValid && isSubmitted && <p className="errorText">Message is required</p>}
         <Button 
           className="submitButton" 
           type="submit" 
