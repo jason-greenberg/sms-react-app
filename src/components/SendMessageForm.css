@@ -1,0 +1,35 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.errorText {
+    color: red;
+    font-size: 0.8em;
+    margin-top: -40px;
+    margin-bottom: 25px;
+}
+
+.textInputField {
+  margin-bottom: 20px;
+  min-width: 200px;
+  width: 100%;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: rgb(51, 94, 234);
+  color: white;
+}
+
+.submitButton:hover {
+    background-color: rgb(40, 73, 181);
+}
