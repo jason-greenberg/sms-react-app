@@ -5,7 +5,7 @@ import { SendMessageForm } from './components/SendMessageForm';
 function App() {
   const onSubmit = async (phoneNumber: string, message: string) => {
     try {
-      const response = await fetch('https:localhost:5001/api/send', {
+      const response = await fetch('/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
