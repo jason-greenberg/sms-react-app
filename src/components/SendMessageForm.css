@@ -30,6 +30,6 @@
   color: white;
 }
 
-.submitButton:hover {
-    background-color: rgb(40, 73, 181);
-}
+.submitButton:not([disabled]):hover {
+    background-color: rgb(40, 73, 181) !important;
+  }

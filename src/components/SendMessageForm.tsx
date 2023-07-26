@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, TextInputField } from 'evergreen-ui'
 import './SendMessageForm.css'
 
@@ -10,27 +10,22 @@ export const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSubmit }) =>
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState<boolean>(true);
-  const [isMessageValid, setIsMessageValid] = useState<boolean>(true);
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState<boolean>(false);
+  const [isMessageValid, setIsMessageValid] = useState<boolean>(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
-  const validateForm = () => {
-    const messageIsValid = message.length > 0;
-    setIsMessageValid(messageIsValid);
-    
+  useEffect(() => {
     // Validates a North American phone number format, adjust as necessary for other formats.
-    const phoneNumberIsValid = /^(\+1|1)?[2-9]\d{2}[2-9]\d{6}$/.test(phoneNumber);
-    setIsPhoneNumberValid(phoneNumberIsValid);
-  
-    return messageIsValid && phoneNumberIsValid;
-  };
-  
+    setIsPhoneNumberValid(/^(\+1|1)?[2-9]\d{2}[2-9]\d{6}$/.test(phoneNumber));
+    setIsMessageValid(message.length > 0);
+    setIsFormValid(isPhoneNumberValid && isMessageValid);
+  }, [phoneNumber, message, isPhoneNumberValid, isMessageValid]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    if (!validateForm()) {
+
+    if (!isFormValid) {
       return;
     }
 
@@ -57,24 +52,25 @@ export const SendMessageForm: React.FC<SendMessageFormProps> = ({ onSubmit }) =>
           label="Phone Number"
           placeholder="6502079920"
           value={phoneNumber}
-          isInvalid={!isPhoneNumberValid}
+          isInvalid={!isPhoneNumberValid && phoneNumber !== ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPhoneNumber(e.target.value)}
         />
-        {!isPhoneNumberValid && isSubmitted && <p className="errorText">Phone number is invalid</p>}
+        {!isPhoneNumberValid && phoneNumber !== '' && message.length > 0 && <p className="errorText">Phone number is invalid</p>}
         <TextInputField
           className="textInputField"
           label="Message"
           placeholder="Appointment reminder"
           value={message}
-          isInvalid={!isMessageValid}
+          isInvalid={!isMessageValid && message !== ''}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value)}
         />
-        {!isMessageValid && isSubmitted && <p className="errorText">Message is required</p>}
+        {!isMessageValid && message !== '' && <p className="errorText">Message is required</p>}
         <Button 
           className="submitButton" 
           type="submit" 
           intent={isSuccess ? 'success' : 'none'}
           isLoading={isLoading}
+          disabled={!isFormValid || isLoading}
         >
           Send Message
         </Button>
