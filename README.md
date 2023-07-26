@@ -5,7 +5,7 @@ A simple SMS sending application built using React.js for the frontend, Express.
 ## Project Structure
 
 - **Backend**: Contains the Express.js server and the logic for sending SMS using Twilio.
-- **Frontend**: Contains the React.js application where users can input a phone number and a message to send an SMS.
+- **Root (Frontend)**: Contains the React.js application where users can input a phone number and a message to send an SMS.
 
 ## Getting Started
 
